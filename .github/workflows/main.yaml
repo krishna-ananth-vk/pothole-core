@@ -26,13 +26,13 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "backend"
-          target: "/opt/deployments/ats-core"
+          target: "/opt/deployments/pothole/pothole-core"
 
       - name: Restart backend service
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.LINODE_IP }}
-          username: ${{ secrets.LINODE_USER }}
+          host: ${{ secrets.VM_IP }}
+          username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo systemctl restart ats-core.service
+            sudo systemctl restart pothole-core.service
