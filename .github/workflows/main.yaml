@@ -1,0 +1,38 @@
+name: Deploy Go Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Build Go binary
+        run: GOOS=linux GOARCH=amd64 go build -o backend .
+
+      - name: Deploy via SCP
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.VM_IP }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "backend"
+          target: "/opt/deployments/ats-core"
+
+      - name: Restart backend service
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.LINODE_IP }}
+          username: ${{ secrets.LINODE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo systemctl restart ats-core.service
