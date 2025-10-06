@@ -20,9 +20,10 @@ func main() {
 		log.Fatalf("Failed to initialize logger: %v", err)
 	}
 	defer zapLogger.Sync()
-
-	zapLogger.Info("App has started")
-
+	err = services.InitFirebase()
+	if err != nil {
+		zapLogger.Sugar().Fatalf("Firebase initialisation failed: %v", err)
+	}
 	r := chi.NewRouter()
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -42,9 +43,13 @@ func main() {
 
 		// r.Get("/users", services.GetUsers)
 		r.Get("/health", services.GetHealth)
+
+		// login user
+		r.Post("/login", services.LoginUser)
 	})
 
-	zapLogger.Info("App has started on 8085")
-	fmt.Println("App has started on 8085")
+	fmt.Printf("App has started on %s", constant_variables.PORT)
+
+	zapLogger.Sugar().Infof("App has started on %s", constant_variables.PORT)
 	http.ListenAndServe(constant_variables.PORT, r)
 }
