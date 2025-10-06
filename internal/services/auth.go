@@ -27,7 +27,6 @@ type LoginResponse struct {
 var firebaseAuth *auth.Client
 
 func InitFirebase() error {
-	// Path to your Firebase Admin SDK service account key JSON
 	opt := option.WithCredentialsFile("serviceAccountKey.json")
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
@@ -50,14 +49,12 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Verify Firebase ID token
 	token, err := firebaseAuth.VerifyIDToken(r.Context(), req.IDToken)
 	if err != nil {
 		http.Error(w, "Invalid or expired token", http.StatusUnauthorized)
 		return
 	}
 
-	// Fetch user info from Firebase
 	userRecord, err := firebaseAuth.GetUser(r.Context(), token.UID)
 	if err != nil {
 		http.Error(w, "Failed to fetch user", http.StatusInternalServerError)

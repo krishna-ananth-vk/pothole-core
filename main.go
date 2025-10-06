@@ -46,6 +46,9 @@ func main() {
 
 		// login user
 		r.Post("/login", services.LoginUser)
+
+		// Image upload
+		r.Post("/upload", services.UploadImage)
 	})
 
 	fmt.Printf("App has started on %s", constant_variables.PORT)
