@@ -25,9 +25,7 @@ jobs:
           host: ${{ secrets.VM_IP }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: |
-            backend
-            serviceAccountKey.json
+          source: backend
           target: "/opt/deployments/pothole/pothole-core"
 
       - name: Restart backend service
