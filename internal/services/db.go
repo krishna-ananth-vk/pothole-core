@@ -19,6 +19,16 @@ func InitDB() error {
 	dbname := os.Getenv("DB_NAME")
 	sslmode := os.Getenv("DB_SSLMODE")
 
+	fmt.Printf("DB_HOST: %v \n", host)
+	fmt.Printf("DB_port: %v \n", port)
+	fmt.Printf("DB_user: %v \n", user)
+	fmt.Printf("DB_password: %v \n", password)
+	fmt.Printf("DB_ssl: %v \n", sslmode)
+	conec := fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
+		user, password, host, port, dbname, sslmode,
+	)
+	fmt.Println(conec)
 	connStr := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		user, password, host, port, dbname, sslmode,
