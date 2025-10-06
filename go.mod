@@ -6,6 +6,7 @@ require (
 	firebase.google.com/go/v4 v4.18.0
 	github.com/go-chi/chi/v5 v5.2.3
 	github.com/jackc/pgx/v5 v5.7.6
+	github.com/joho/godotenv v1.5.1
 	go.uber.org/zap v1.27.0
 	google.golang.org/api v0.250.0
 )

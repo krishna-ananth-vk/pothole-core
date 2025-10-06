@@ -11,10 +11,14 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("Warning: no .env file found, relying on system environment variables")
+	}
 	logPath := "pothole-core.log"
 	zapLogger, err := logger.SetupLogger(logPath)
 	if err != nil {
