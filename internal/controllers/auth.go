@@ -33,24 +33,14 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	UID           string         `json:"uid"`
-	DisplayName   string         `json:"display_name"`
-	Email         string         `json:"email"`
-	CreatedAt     time.Time      `json:"created_at"`
-	ShowAnonymous bool           `json:"show_anonymous"`
-	IsActive      bool           `json:"is_active"`
-	IsBanned      bool           `json:"is_banned"`
-	BannedReason  string         `json:"banned_reason,omitempty"`
-	ExpPoints     int            `json:"exp_points"`
-	Level         int            `json:"level"`
-	ReportsCount  int            `json:"reports_count"`
-	LastReportAt  time.Time      `json:"last_report_at,omitempty"`
-	AvatarURL     string         `json:"avatar_url,omitempty"`
-	Bio           string         `json:"bio,omitempty"`
-	Timestamp     time.Time      `json:"timestamp"`
-	Message       string         `json:"message"`
-	UserExists    bool           `json:"user_exist"`
-	User          *services.User `json:"user"`
+	UID         string         `json:"uid"`
+	DisplayName string         `json:"display_name"`
+	Email       string         `json:"email"`
+	CreatedAt   time.Time      `json:"created_at"`
+	Timestamp   time.Time      `json:"timestamp"`
+	Message     string         `json:"message"`
+	UserExists  bool           `json:"user_exist"`
+	User        *services.User `json:"user"`
 }
 
 var firebaseAuth *auth.Client
