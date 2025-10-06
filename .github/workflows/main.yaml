@@ -17,6 +17,8 @@ jobs:
           go-version: "1.22"
 
       - name: Decode and write Firebase key
+        env:
+          FIREBASE_KEY_B64: ${{ secrets.FIREBASE_KEY_B64 }}
         run: |
           echo "$FIREBASE_KEY_B64" | base64 --decode > serviceAccountKey.json
 
