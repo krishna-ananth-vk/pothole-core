@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	constant_variables "nammablr/pothole/internal/constants"
+	"nammablr/pothole/internal/controllers"
 	"nammablr/pothole/internal/services"
 	"nammablr/pothole/pkg/logger"
 	"net/http"
@@ -20,7 +21,11 @@ func main() {
 		log.Fatalf("Failed to initialize logger: %v", err)
 	}
 	defer zapLogger.Sync()
-	err = services.InitFirebase()
+
+	if err := services.InitDB(); err != nil {
+		zapLogger.Sugar().Fatalf("Database initialisation failed: %v", err)
+	}
+	err = controllers.InitFirebase()
 	if err != nil {
 		zapLogger.Sugar().Fatalf("Firebase initialisation failed: %v", err)
 	}
@@ -42,13 +47,13 @@ func main() {
 		})
 
 		// r.Get("/users", services.GetUsers)
-		r.Get("/health", services.GetHealth)
+		r.Get("/health", controllers.GetHealth)
 
 		// login user
-		r.Post("/login", services.LoginUser)
-
+		r.Post("/login", controllers.LoginUser)
+		r.Post("/create-user", controllers.CreateUser)
 		// Image upload
-		r.Post("/upload", services.UploadImage)
+		r.Post("/upload", controllers.UploadImage)
 	})
 
 	fmt.Printf("App has started on %s", constant_variables.PORT)
