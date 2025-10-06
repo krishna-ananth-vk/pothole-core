@@ -16,6 +16,10 @@ jobs:
         with:
           go-version: "1.22"
 
+      - name: Decode and write Firebase key
+        run: |
+          echo "$FIREBASE_KEY_B64" | base64 --decode > serviceAccountKey.json
+
       - name: Build Go binary
         run: GOOS=linux GOARCH=amd64 go build -o backend .
 
@@ -25,7 +29,9 @@ jobs:
           host: ${{ secrets.VM_IP }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "backend"
+          source: |
+            backend
+            serviceAccountKey.json
           target: "/opt/deployments/pothole/pothole-core"
 
       - name: Restart backend service
