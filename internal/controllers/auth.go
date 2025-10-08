@@ -182,6 +182,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		&user.Bio,
 	); err != nil {
 		zap.L().Error("failed to insert or update user", zap.Error(err))
+		fmt.Printf("failed to insert or update user %v", (err))
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return
 	}
