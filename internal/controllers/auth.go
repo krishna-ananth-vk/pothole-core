@@ -20,6 +20,7 @@ type CreateUserRequest struct {
 	AvatarURL     *string `json:"avatar_url,omitempty"`
 	ShowAnonymous *bool   `json:"show_anonymous,omitempty"`
 	IsActive      *bool   `json:"is_active,omitempty"`
+	Email         string  `json:"email"`
 }
 
 type CreateUserResponse struct {
@@ -153,7 +154,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		          reports_count, last_report_at, avatar_url, bio
 	`
 
-	email := ""
+	email := req.Email
 	row := services.DB.QueryRow(context.Background(), query,
 		req.UID,
 		req.DisplayName,
