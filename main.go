@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"log"
 	constant_variables "nammablr/pothole/internal/constants"
 	"nammablr/pothole/internal/controllers"
@@ -37,10 +39,19 @@ func main() {
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
+
+			var bodyBytes []byte
+			if r.Body != nil {
+				bodyBytes, _ = io.ReadAll(r.Body)
+				r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+			}
+
 			next.ServeHTTP(w, r)
+
 			zapLogger.Info("request completed",
 				zap.String("method", r.Method),
 				zap.String("path", r.URL.Path),
+				zap.ByteString("body", bodyBytes),
 				zap.Duration("duration", time.Since(start)),
 			)
 		})
