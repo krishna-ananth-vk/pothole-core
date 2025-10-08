@@ -161,7 +161,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		createdAt,
 		showAnonymous,
 		isActive,
-		req.UID, // uid again for conflict
 	)
 
 	var user services.User
