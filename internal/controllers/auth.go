@@ -148,7 +148,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		ON CONFLICT (uid) DO UPDATE
 		SET display_name = EXCLUDED.display_name,
 		    show_anonymous = EXCLUDED.show_anonymous,
-		    is_active = EXCLUDED.is_active
+		    is_active = EXCLUDED.is_active,
+			email = EXCLUDED.email,
 		RETURNING uid, display_name, email, created_at, show_anonymous,
 		          is_active, is_banned, banned_reason, exp_points, level,
 		          reports_count, last_report_at, avatar_url, bio
